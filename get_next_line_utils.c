@@ -6,7 +6,7 @@
 /*   By: kschelvi <kschelvi@student.codam.nl>         +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2023/10/11 13:56:41 by kschelvi      #+#    #+#                 */
-/*   Updated: 2023/10/11 17:05:21 by kschelvi      ########   odam.nl         */
+/*   Updated: 2023/10/12 15:53:56 by kschelvi      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -44,7 +44,7 @@ void	*ft_memcpy(void *dst, void *src, size_t n)
 	else
 	{
 		i = 0;
-		while (i < n)
+		while (i < (int)n)
 		{
 			((char *)dst)[i] = ((char *)src)[i];
 			i++;
@@ -65,46 +65,10 @@ size_t	ft_strlen(const char *str)
 	return (i);
 }
 
-size_t	ft_strlcat(char *dst, const char *src, size_t size)
-{
-	size_t	i;
-	size_t	dst_size;
-	size_t	len;
-
-	i = 0;
-	dst_size = ft_strlen(dst);
-	if (size <= 0 || dst_size >= size)
-		len = ft_strlen(src) + size;
-	else
-		len = dst_size + ft_strlen(src);
-	while (src[i] != '\0' && dst_size + 1 < size)
-	{
-		dst[dst_size] = src[i];
-		dst_size++;
-		i++;
-	}
-	dst[dst_size] = '\0';
-	return (len);
-}
-
-void	*ft_memset(void *s, int c, size_t n)
-{
-	unsigned char	*ptr;
-	size_t			i;
-
-	ptr = (unsigned char *) s;
-	i = 0;
-	while (i < n)
-	{
-		ptr[i] = c;
-		i++;
-	}
-	return (s);
-}
-
 void	*ft_calloc(size_t nmemb, size_t size)
 {
 	void	*ptr;
+	int		i;
 
 	if ((int) nmemb < 0 && (int) size < 0)
 		return (NULL);
@@ -113,25 +77,26 @@ void	*ft_calloc(size_t nmemb, size_t size)
 	ptr = malloc (nmemb * size);
 	if (ptr == NULL)
 		return (NULL);
-	ft_memset(ptr, '\0', nmemb * size);
+	i = 0;
+	while ((size_t)i < nmemb * size)
+	{
+		((unsigned char *)ptr)[i] = '\0';
+		i++;
+	}
 	return (ptr);
 }
 
-void	*ft_realloc(void *ptr, size_t size)
+char	*ft_strjoin_and_realloc(char *s1_to_free, char *s2_to_join, size_t s2_size)
 {
-	void	*new_ptr;
+	size_t	len;
+	char	*str;
 
-	if (size == 0)
-	{
-		free(ptr);
+	len = ft_strlen(s1_to_free) + s2_size;
+	str = (char *)ft_calloc(len + 1, sizeof(char));
+	if (str == NULL)
 		return (NULL);
-	}
-	if (ptr == NULL)
-		return (ft_calloc(size, sizeof(char)));
-	new_ptr = ft_calloc(size, sizeof(char));
-	if (new_ptr == NULL)
-		return (NULL);
-	ft_memcpy(new_ptr, ptr, ft_strlen((char *)ptr));
-	free(ptr);
-	return (new_ptr);
+	ft_memcpy(str, s1_to_free, ft_strlen(s1_to_free));
+	ft_memcpy(str + ft_strlen(s1_to_free), s2_to_join, s2_size);
+	free(s1_to_free);
+	return(str);
 }
