@@ -1,3 +1,4 @@
-test1 ds fsdd fsaddddd
-test2s ds sd
-test3 sdsd ss
+Dit is een test file voor de get_next_line functie
+test
+nog een test
+en ja hoor, nog een test

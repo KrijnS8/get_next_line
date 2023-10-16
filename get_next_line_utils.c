@@ -5,14 +5,24 @@
 /*                                                     +:+                    */
 /*   By: kschelvi <kschelvi@student.codam.nl>         +#+                     */
 /*                                                   +#+                      */
-/*   Created: 2023/10/11 13:56:41 by kschelvi      #+#    #+#                 */
-/*   Updated: 2023/10/12 15:53:56 by kschelvi      ########   odam.nl         */
+/*   Created: 2023/10/16 13:40:33 by kschelvi      #+#    #+#                 */
+/*   Updated: 2023/10/16 16:57:21 by kschelvi      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "get_next_line.h"
 
-char	*ft_strchr(const char *s, int c)
+size_t	ft_strlen(char *str)
+{
+	int	len;
+
+	len = 0;
+	while (str[len] != '\0')
+		len++;
+	return (len);
+}
+
+char	*ft_strchr(char *s, int c)
 {
 	int	i;
 
@@ -26,77 +36,58 @@ char	*ft_strchr(const char *s, int c)
 	return (NULL);
 }
 
-void	*ft_memcpy(void *dst, void *src, size_t n)
+char	*ft_strdup(char *s)
 {
-	int	i;
-
-	if (dst == NULL || src == NULL)
-		return (NULL);
-	if ((char *)dst > (char *)src && (char *)dst < (char *)src + n)
-	{
-		i = n - 1;
-		while (i >= 0)
-		{
-			((char *)dst)[i] = ((char *)src)[i];
-			i--;
-		}
-	}
-	else
-	{
-		i = 0;
-		while (i < (int)n)
-		{
-			((char *)dst)[i] = ((char *)src)[i];
-			i++;
-		}
-	}
-	return (dst);
-}
-
-size_t	ft_strlen(const char *str)
-{
+	char	*dup;
+	size_t	len;
 	size_t	i;
 
-	if (str == NULL)
-		return (0);
-	i = 0;
-	while (str[i] != '\0')
-		i++;
-	return (i);
-}
-
-void	*ft_calloc(size_t nmemb, size_t size)
-{
-	void	*ptr;
-	int		i;
-
-	if ((int) nmemb < 0 && (int) size < 0)
-		return (NULL);
-	if (nmemb * size > 4294967295)
-		return (NULL);
-	ptr = malloc (nmemb * size);
-	if (ptr == NULL)
+	len = ft_strlen(s);
+	dup = (char *)malloc((len + 1) * sizeof(char));
+	if (!dup)
 		return (NULL);
 	i = 0;
-	while ((size_t)i < nmemb * size)
+	while (i < len)
 	{
-		((unsigned char *)ptr)[i] = '\0';
+		dup[i] = s[i];
 		i++;
 	}
-	return (ptr);
+	dup[i] = '\0';
+	return (dup);
 }
 
-char	*ft_strjoin_and_realloc(char *s1_to_free, char *s2_to_join, size_t s2_size)
+char	*ft_strjoin(char *s1, char *s2)
 {
-	size_t	len;
-	char	*str;
+	char	*result;
+	size_t	len1;
+	size_t	len2;
+	size_t	i;
 
-	len = ft_strlen(s1_to_free) + s2_size;
-	str = (char *)ft_calloc(len + 1, sizeof(char));
-	if (str == NULL)
+	if (s1 == NULL)
+		return (ft_strdup(s2));
+	len1 = ft_strlen(s1);
+	len2 = ft_strlen(s2);
+	result = (char *)malloc((len1 + len2 + 1) * sizeof(char));
+	if (!result)
 		return (NULL);
-	ft_memcpy(str, s1_to_free, ft_strlen(s1_to_free));
-	ft_memcpy(str + ft_strlen(s1_to_free), s2_to_join, s2_size);
-	free(s1_to_free);
-	return(str);
+	i = 0;
+	while (i < len1)
+	{
+		result[i] = s1[i];
+		i++;
+	}
+	while (i < len1 + len2)
+	{
+		result[i] = s2[i - len1];
+		i++;
+	}
+	result[len1 + len2] = '\0';
+	return (result);
 }
+
+/* #include <stdio.h>
+
+int	main(void)
+{
+	printf("%s", ft_strjoin("wow ", "Hello"));
+} */
