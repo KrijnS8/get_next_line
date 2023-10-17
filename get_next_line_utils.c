@@ -6,7 +6,7 @@
 /*   By: kschelvi <kschelvi@student.codam.nl>         +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2023/10/16 13:40:33 by kschelvi      #+#    #+#                 */
-/*   Updated: 2023/10/16 16:57:21 by kschelvi      ########   odam.nl         */
+/*   Updated: 2023/10/17 15:09:45 by kschelvi      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,18 +36,18 @@ char	*ft_strchr(char *s, int c)
 	return (NULL);
 }
 
-char	*ft_strdup(char *s)
+char	*ft_strdup(char *s, size_t size)
 {
 	char	*dup;
 	size_t	len;
 	size_t	i;
 
 	len = ft_strlen(s);
-	dup = (char *)malloc((len + 1) * sizeof(char));
-	if (!dup)
+	dup = (char *)malloc((size + 1) * sizeof(char));
+	if (dup == NULL)
 		return (NULL);
 	i = 0;
-	while (i < len)
+	while (i < len && i < size)
 	{
 		dup[i] = s[i];
 		i++;
@@ -64,11 +64,11 @@ char	*ft_strjoin(char *s1, char *s2)
 	size_t	i;
 
 	if (s1 == NULL)
-		return (ft_strdup(s2));
+		return (ft_strdup(s2, ft_strlen(s2)));
 	len1 = ft_strlen(s1);
 	len2 = ft_strlen(s2);
 	result = (char *)malloc((len1 + len2 + 1) * sizeof(char));
-	if (!result)
+	if (result == NULL)
 		return (NULL);
 	i = 0;
 	while (i < len1)
@@ -83,6 +83,34 @@ char	*ft_strjoin(char *s1, char *s2)
 	}
 	result[len1 + len2] = '\0';
 	return (result);
+}
+
+char	*ft_substr(char	*s, unsigned int start, size_t len)
+{
+	size_t	s_len;
+	char	*str;
+	size_t	i;
+
+	s_len = ft_strlen(s);
+	if (s_len < (size_t)start)
+	{
+		str = (char *)malloc(1 * sizeof(char));
+		str[0] = '\0';
+		return (str);
+	}
+	if (start + len > s_len)
+		len = s_len - start;
+	str = (char *)malloc((len + 1) * sizeof(char));
+	if (str == NULL)
+		return (NULL);
+	i = 0;
+	while (i < len)
+	{
+		str[i] = s[start + i];
+		i++;
+	}
+	str[i] = '\0';
+	return (str);
 }
 
 /* #include <stdio.h>
