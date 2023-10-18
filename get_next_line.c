@@ -6,12 +6,11 @@
 /*   By: kschelvi <kschelvi@student.codam.nl>         +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2023/10/16 13:24:51 by kschelvi      #+#    #+#                 */
-/*   Updated: 2023/10/17 17:28:46 by kschelvi      ########   odam.nl         */
+/*   Updated: 2023/10/18 17:49:32 by kschelvi      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include <unistd.h>
-#include <stdio.h>
 #include <stdbool.h>
 #include "get_next_line.h"
 
@@ -42,10 +41,7 @@ char	*ft_add_to_line_newline(char **line, char *buffer, char **remainder)
 		return (NULL);
 	tmp = ft_strjoin(*line, substr);
 	if (tmp == NULL)
-	{
-		free(substr);
-		return (NULL);
-	}
+		return (free(substr), NULL);
 	free(*line);
 	free(substr);
 	free(buffer);
@@ -60,7 +56,7 @@ char	*ft_init_buffer(char **buffer, char **remainder, \
 	{
 		*buffer = ft_strdup(*remainder, (size_t)BUFFER_SIZE);
 		if (*buffer == NULL)
-			return (NULL);
+			return (free(*remainder), NULL);
 		free(*remainder);
 		*remainder = NULL;
 		*bytes_read = 1;
@@ -107,16 +103,17 @@ char	*get_next_line(int fd)
 }
 
 /* #include <fcntl.h>
-
+#include <stdio.h>
 int	main(void)
 {
-	int fd = open("./gnlTester/files/big_line_no_nl", O_RDONLY);
+	int fd = open("./gnlTester/files/big_line_with_nl", O_RDONLY);
 	char	*line;
 
 	line = get_next_line(fd);
+	// printf("%d", fd);
 	while (line != NULL)
 	{
-		printf("%s", line);
+		// printf("%s", line);
 		free(line);
 		line = get_next_line(fd);
 	}
