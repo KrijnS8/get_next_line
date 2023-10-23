@@ -1,18 +1,18 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        ::::::::            */
-/*   get_next_line.c                                    :+:    :+:            */
+/*   get_next_line_bonus.c                              :+:    :+:            */
 /*                                                     +:+                    */
 /*   By: kschelvi <kschelvi@student.codam.nl>         +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2023/10/16 13:24:51 by kschelvi      #+#    #+#                 */
-/*   Updated: 2023/10/20 12:00:10 by kschelvi      ########   odam.nl         */
+/*   Updated: 2023/10/23 14:21:33 by kschelvi      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include <unistd.h>
 #include <stdbool.h>
-#include "get_next_line.h"
+#include "get_next_line_bonus.h"
 
 bool	ft_add_to_line(char **line, char *buffer)
 {
@@ -26,15 +26,15 @@ bool	ft_add_to_line(char **line, char *buffer)
 	return (true);
 }
 
-char	*ft_add_to_line_newline(char **line, char *buffer, char **remainder)
+char	*ft_add_to_line_newline(char **line, char *buffer, char **remainder, int fd)
 {
 	char	*tmp;
 	char	*substr;
 	char	*ptr;
 
 	ptr = ft_strchr(buffer, '\n') + 1;
-	*remainder = ft_strdup(ptr, ft_strlen(ptr));
-	if (remainder == NULL)
+	remainder[fd] = ft_strdup(ptr, ft_strlen(ptr));
+	if (remainder[fd] == NULL)
 		return (NULL);
 	substr = ft_substr(buffer, 0, ft_strchr(buffer, '\n') - buffer + 1);
 	if (substr == NULL)
@@ -52,13 +52,13 @@ char	*ft_add_to_line_newline(char **line, char *buffer, char **remainder)
 char	*ft_init_buffer(char **buffer, char **remainder, \
 						size_t *bytes_read, int fd)
 {
-	if (*remainder != NULL)
+	if (remainder[fd] != NULL)
 	{
-		*buffer = ft_strdup(*remainder, (size_t)BUFFER_SIZE);
+		*buffer = ft_strdup(remainder[fd], (size_t)BUFFER_SIZE);
 		if (*buffer == NULL)
-			return (free(*remainder), NULL);
-		free(*remainder);
-		*remainder = NULL;
+			return (free(remainder[fd]), NULL);
+		free(remainder[fd]);
+		remainder[fd] = NULL;
 		*bytes_read = 1;
 	}
 	else
@@ -76,13 +76,13 @@ char	*ft_init_buffer(char **buffer, char **remainder, \
 
 char	*get_next_line(int fd)
 {
-	static char	*remainder = NULL;
+	static char	*remainder[MAX_FD] = {NULL};
 	char		*buffer;
 	char		*line;
 	size_t		bytes_read;
 
 	line = NULL;
-	if (ft_init_buffer(&buffer, &remainder, &bytes_read, fd) == NULL)
+	if (ft_init_buffer(&buffer, remainder, &bytes_read, fd) == NULL)
 		return (NULL);
 	while (bytes_read > 0 && ft_strchr(buffer, '\n') == NULL)
 	{
@@ -94,10 +94,10 @@ char	*get_next_line(int fd)
 		buffer[bytes_read] = '\0';
 	}
 	if (ft_strchr(buffer, '\n') != NULL)
-		return (ft_add_to_line_newline(&line, buffer, &remainder));
+		return (ft_add_to_line_newline(&line, buffer, remainder, fd));
 	if (!ft_add_to_line(&line, buffer))
-		return (free(buffer), free(remainder), NULL);
-	if (*line == '\0' && remainder == NULL)
+		return (free(buffer), free(remainder[fd]), NULL);
+	if (*line == '\0' && remainder[fd] == NULL)
 		return (free(buffer), free(line), NULL);
 	return (free(buffer), line);
 }
