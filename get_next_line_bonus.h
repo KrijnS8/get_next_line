@@ -6,12 +6,12 @@
 /*   By: kschelvi <kschelvi@student.codam.nl>         +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2023/10/16 13:21:43 by kschelvi      #+#    #+#                 */
-/*   Updated: 2023/10/23 14:08:36 by kschelvi      ########   odam.nl         */
+/*   Updated: 2023/10/23 14:35:42 by kschelvi      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
-#ifndef GET_NEXT_LINE_H
-# define GET_NEXT_LINE_H
+#ifndef GET_NEXT_LINE_BONUS_H
+# define GET_NEXT_LINE_BONUS_H
 # ifndef BUFFER_SIZE
 #  define BUFFER_SIZE 12
 # endif

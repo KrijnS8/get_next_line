@@ -6,7 +6,7 @@
 /*   By: kschelvi <kschelvi@student.codam.nl>         +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2023/10/16 13:24:51 by kschelvi      #+#    #+#                 */
-/*   Updated: 2023/10/23 14:21:33 by kschelvi      ########   odam.nl         */
+/*   Updated: 2023/10/23 14:35:30 by kschelvi      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,7 +26,8 @@ bool	ft_add_to_line(char **line, char *buffer)
 	return (true);
 }
 
-char	*ft_add_to_line_newline(char **line, char *buffer, char **remainder, int fd)
+char	*ft_add_to_line_newline(char **line, char *buffer, \
+								char **remainder, int fd)
 {
 	char	*tmp;
 	char	*substr;
