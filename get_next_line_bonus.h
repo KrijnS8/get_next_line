@@ -6,14 +6,14 @@
 /*   By: kschelvi <kschelvi@student.codam.nl>         +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2023/10/16 13:21:43 by kschelvi      #+#    #+#                 */
-/*   Updated: 2023/10/26 12:19:34 by kschelvi      ########   odam.nl         */
+/*   Updated: 2023/10/26 12:46:04 by kschelvi      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
 #ifndef GET_NEXT_LINE_BONUS_H
 # define GET_NEXT_LINE_BONUS_H
 # ifndef BUFFER_SIZE
-#  define BUFFER_SIZE 12
+#  define BUFFER_SIZE 32
 # endif
 # include <stdlib.h>
 # define MAX_FD 65535

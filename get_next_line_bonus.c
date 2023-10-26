@@ -6,7 +6,7 @@
 /*   By: kschelvi <kschelvi@student.codam.nl>         +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2023/10/16 13:24:51 by kschelvi      #+#    #+#                 */
-/*   Updated: 2023/10/26 12:20:38 by kschelvi      ########   odam.nl         */
+/*   Updated: 2023/10/26 16:29:48 by kschelvi      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -114,7 +114,7 @@ int	main(void)
 	// printf("%d", fd);
 	while (line != NULL)
 	{
-		printf("%s", line);
+		//printf("%s", line);
 		free(line);
 		line = get_next_line(fd);
 	}
